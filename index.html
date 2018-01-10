@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+  <title>
+    React js
+  </title>
+</head>
+<body>
+  <button id="getApiData">Get Api Data</button>
+  <div id="output"></div><br>
+  <div id = "linebreak"></div>
+  <script>
+  document.getElementById('getApiData').addEventListener('click',getPosts);
+
+
+  function getPosts(){
+    fetch("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty")
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      for(i=0;i<10;i++){
+        finalurl="https://hacker-news.firebaseio.com/v0/item/" + data[i] + ".json"
+        fetch(finalurl)
+        .then((resp) => resp.json())
+        .then((data2) => {
+          let output = "<h1>News</h1>";
+
+
+            output += `
+            <div>
+
+            <h2>
+            <a href="${data2.url}">${data2.title}</a></h2>
+
+            </div>
+            `;
+
+
+
+
+
+          //let linebreak = "<br><br>";
+          document.getElementById("output").innerHTML = output;
+        //document.getElementById("linebreak").innerHTML = linebreak;
+
+
+
+        })
+      }
+      /*let output = '<h1>News</h1>';
+      data.forEach(function(post){
+
+        output += `
+        <div><ul>
+        <h2>${post.title}</h2>
+        <p>${post.body}</p>
+        </ul>
+        </div>
+        `;
+      });*/
+
+    })
+
+  }
+  </script>
+</body>
+</html>
